@@ -1,10 +1,10 @@
 package profile
 
 import (
-	g "xabbo.b7c.io/goearth"
-	"xabbo.b7c.io/goearth/internal/debug"
-	"xabbo.b7c.io/goearth/shockwave/in"
-	"xabbo.b7c.io/goearth/shockwave/out"
+	g "github.com/thauanvargas/goearth"
+	"github.com/thauanvargas/goearth/internal/debug"
+	"github.com/thauanvargas/goearth/shockwave/in"
+	"github.com/thauanvargas/goearth/shockwave/out"
 )
 
 var dbg = debug.NewLogger("[profile]")

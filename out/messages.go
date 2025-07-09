@@ -2,7 +2,7 @@
 
 package out
 
-import g "xabbo.b7c.io/goearth"
+import g "github.com/thauanvargas/goearth"
 
 var (
 	AcceptFriend                       = g.Out.Id("AcceptFriend")

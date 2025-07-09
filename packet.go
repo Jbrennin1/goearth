@@ -9,8 +9,8 @@ import (
 	"strconv"
 	"unsafe"
 
-	"xabbo.b7c.io/goearth/encoding"
-	"xabbo.b7c.io/goearth/internal/debug"
+	"github.com/thauanvargas/goearth/encoding"
+	"github.com/thauanvargas/goearth/internal/debug"
 )
 
 var dbgPkt = debug.NewLoggerIf("[pkt]", debug.Ptrace)

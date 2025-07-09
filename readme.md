@@ -1,6 +1,9 @@
 # goearth
 Go extension API for the Habbo packet interceptor [G-Earth](https://github.com/sirjonasxx/G-Earth).
 
+This is a Fork for fixes in Origins of the original Repo https://xabbo.b7c.io/goearth
+Please support b7 if you can, he is goated.
+
 ## Requirements
 
 Requires [Go](https://go.dev/dl/) 1.22+.
@@ -18,7 +21,7 @@ The `goearth` CLI can be used to quickly create new extensions.
 1. Install the `goearth` CLI.
 
 ```sh
-go install xabbo.b7c.io/goearth/cmd/goearth@latest
+go install github.com/thauanvargas/goearth/cmd/goearth@latest
 ```
 
 Once it is installed, you can view the command usage with `goearth new -h`.
@@ -41,7 +44,7 @@ You may specify a target client with the `-c` flag, currently either `flash` (de
 ```go
 package main
 
-import g "xabbo.b7c.io/goearth"
+import g "github.com/thauanvargas/goearth"
 
 var ext = g.NewExt(g.ExtInfo{
     Title: "Your extension",
@@ -70,11 +73,11 @@ go run .
 
 Import the `in`/`out` packages to access the respective incoming/outgoing message identifiers.
 ```go
-import "xabbo.b7c.io/goearth/in"
-import "xabbo.b7c.io/goearth/out"
+import "github.com/thauanvargas/goearth/in"
+import "github.com/thauanvargas/goearth/out"
 ```
 
-For the Shockwave messages, use the `xabbo.b7c.io/goearth/shockwave/in` and `out` packages.
+For the Shockwave messages, use the `github.com/thauanvargas/goearth/shockwave/in` and `out` packages.
 
 ### Events
 
@@ -317,7 +320,7 @@ ext.Intercept(in.Chat).With(func(e *g.Intercept) {
 
 ### Game State Management
 
-Game state managers are currently provided for shockwave in the `xabbo.b7c.io/goearth/shockwave/profile`, `room`, `inventory`, and `trade` packages.
+Game state managers are currently provided for shockwave in the `github.com/thauanvargas/goearth/shockwave/profile`, `room`, `inventory`, and `trade` packages.
 These track the state of the game and allow you to subscribe to events, for example, here is a basic chatlog extension:
 
 ```go
@@ -326,8 +329,8 @@ package main
 import (
     "fmt"
 
-    g "xabbo.b7c.io/goearth"
-    "xabbo.b7c.io/goearth/shockwave/room"
+    g "github.com/thauanvargas/goearth"
+    "github.com/thauanvargas/goearth/shockwave/room"
 )
 
 var (

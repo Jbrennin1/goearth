@@ -7,7 +7,7 @@ import (
 	"log"
 	"strings"
 
-	g "xabbo.b7c.io/goearth"
+	g "github.com/thauanvargas/goearth"
 	"{{.MsgPackage}}/in"
 	"{{.MsgPackage}}/out"
 )

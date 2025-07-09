@@ -1,6 +1,6 @@
 package trade
 
-import g "xabbo.b7c.io/goearth"
+import g "github.com/thauanvargas/goearth"
 
 // Args holds the arguments for trade events.
 type Args struct {
@@ -10,7 +10,7 @@ type Args struct {
 
 // AcceptArgs holds the arguments for trade accept events.
 type AcceptArgs struct {
-	UserId     int
+	UserId   int
 	Accepted bool
 }
 

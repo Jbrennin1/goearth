@@ -2,7 +2,7 @@
 
 package in
 
-import g "xabbo.b7c.io/goearth"
+import g "github.com/thauanvargas/goearth"
 
 var (
 	ACCOUNT_PREFERENCES              = g.In.Id("ACCOUNT_PREFERENCES")

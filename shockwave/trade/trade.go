@@ -1,7 +1,7 @@
 package trade
 
 import (
-	g "xabbo.b7c.io/goearth"
+	g "github.com/thauanvargas/goearth"
 )
 
 // Offers is an array that holds the offers of the trader and tradee, respectively.

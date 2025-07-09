@@ -5,9 +5,9 @@ import (
 	"strings"
 	"sync"
 
-	g "xabbo.b7c.io/goearth"
-	"xabbo.b7c.io/goearth/internal/debug"
-	"xabbo.b7c.io/goearth/shockwave/in"
+	g "github.com/thauanvargas/goearth"
+	"github.com/thauanvargas/goearth/internal/debug"
+	"github.com/thauanvargas/goearth/shockwave/in"
 )
 
 var dbg = debug.NewLogger("[room]")

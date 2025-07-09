@@ -1,6 +1,6 @@
 package console
 
-import "xabbo.b7c.io/goearth/shockwave/friend"
+import "github.com/thauanvargas/goearth/shockwave/friend"
 
 type Init struct {
 	PersistentMsg    string
