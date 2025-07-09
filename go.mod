@@ -1,4 +1,4 @@
-module xabbo.b7c.io/goearth
+module github.com/thauanvargas/goearth
 
 go 1.23
 
