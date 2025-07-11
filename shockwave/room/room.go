@@ -219,9 +219,19 @@ type EntityBase struct {
 // Entity represents a user, pet or bot in a room.
 type Entity struct {
 	EntityBase
-	Dir     int
-	HeadDir int
-	Action  string
+	InfoStand *InfoStandData
+	Dir       int
+	HeadDir   int
+	Action    string
+}
+
+type InfoStandData struct {
+	Expression string
+	Action     string
+	Direction  int
+	Furni      int
+	Plate      int
+	Offset     [2]int
 }
 
 func (ent Entity) String() string {
@@ -231,6 +241,14 @@ func (ent Entity) String() string {
 func (ent *Entity) Parse(p *g.Packet, pos *int) {
 	*ent = Entity{}
 	p.ReadPtr(pos, &ent.EntityBase)
+
+	if ent.Type == User {
+		info := &InfoStandData{}
+		p.ReadPtr(pos, &info.Expression, &info.Action, &info.Direction, &info.Furni, &info.Plate)
+		info.Offset = [2]int{0, 0}
+		ent.InfoStand = info
+	}
+
 }
 
 func (ent *Entity) Compose(p *g.Packet, pos *int) {
