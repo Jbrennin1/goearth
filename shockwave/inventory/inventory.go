@@ -13,7 +13,12 @@ type Inventory struct {
 
 func (inv *Inventory) Parse(p *g.Packet, pos *int) {
 	*inv = Inventory{}
-	p.ReadPtr(pos, &inv.Items)
+	var count int
+	p.ReadPtr(pos, &count)
+	inv.Items = make([]Item, count)
+	for i := 0; i < count; i++ {
+		inv.Items[i].Parse(p, pos)
+	}
 }
 
 type ItemType string
@@ -30,15 +35,17 @@ func (itemType *ItemType) Parse(p *g.Packet, pos *int) {
 // Item represents an inventory item.
 type Item struct {
 	ItemId int
+	IdList []int
 	Pos    int
 	// Type represents the type of the item.
 	// May be "S" for "stuff" (floor item), or "I" for "item" (wall item).
-	Type       ItemType
-	Id         int
-	Class      string
-	DimX, DimY int
-	Colors     string
-	Props      string
+	Type   ItemType
+	Id     int
+	Class  string
+	DimX   int
+	DimY   int
+	Colors string
+	Props  string
 }
 
 func (item Item) String() string {
@@ -47,7 +54,18 @@ func (item Item) String() string {
 
 func (item *Item) Parse(p *g.Packet, pos *int) {
 	*item = Item{}
-	p.ReadPtr(pos, &item.ItemId, &item.Pos, &item.Type, &item.Id, &item.Class)
+	p.ReadPtr(pos, &item.ItemId)
+	item.IdList = []int{item.ItemId}
+
+	var totalItems int
+	p.ReadPtr(pos, &totalItems)
+	for j := 0; j < totalItems; j++ {
+		var nItemId int
+		p.ReadPtr(pos, &nItemId)
+		item.IdList = append(item.IdList, nItemId)
+	}
+
+	p.ReadPtr(pos, &item.Pos, &item.Type, &item.Id, &item.Class)
 	switch item.Type {
 	case "S":
 		p.ReadPtr(pos, &item.DimX, &item.DimY, &item.Colors)
