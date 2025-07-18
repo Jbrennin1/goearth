@@ -76,3 +76,11 @@ func B64Decode(b []byte) int {
 	}
 	return v
 }
+
+func IsValidVL64Byte(b byte) bool {
+	return b&0x40 == 0x40
+}
+
+func IsValidB64Byte(b byte) bool {
+	return b&0x40 == 0x40
+}

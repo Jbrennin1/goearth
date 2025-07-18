@@ -199,12 +199,45 @@ func (mgr *Manager) removeItem(id int) (item Item, ok bool) {
 	defer mgr.mtx.Unlock()
 
 	if item, ok = mgr.items[id]; ok {
-		delete(mgr.items, id)
-		dbg.Printf("removed item (ID: %d)", id)
-	} else {
-		dbg.Printf("failed to find item to remove (ID: %d)", id)
+		newIdList := []int{}
+		for _, listId := range item.IdList {
+			if listId != id {
+				newIdList = append(newIdList, listId)
+			}
+		}
+		item.IdList = newIdList
+
+		if len(item.IdList) > 0 {
+			newKey := item.IdList[0]
+			mgr.items[newKey] = item
+			delete(mgr.items, id)
+			dbg.Printf("promoted item (old ID: %d, new ID: %d)", id, newKey)
+		} else {
+			delete(mgr.items, id)
+			dbg.Printf("removed item (ID: %d)", id)
+		}
+		return item, true
 	}
 
+	for k, v := range mgr.items {
+		found := false
+		newIdList := []int{}
+		for _, listId := range v.IdList {
+			if listId == id {
+				found = true
+			} else {
+				newIdList = append(newIdList, listId)
+			}
+		}
+		if found {
+			v.IdList = newIdList
+			mgr.items[k] = v
+			dbg.Printf("removed id from IdList (ID: %d, ItemId: %d)", id, k)
+			return v, true
+		}
+	}
+
+	dbg.Printf("failed to find item to remove (ID: %d)", id)
 	return
 }
 
@@ -244,4 +277,14 @@ func (mgr *Manager) handleRemoveStripItem(e *g.Intercept) {
 	if item, ok := mgr.removeItem(itemId); ok {
 		mgr.itemRemoved.Dispatch(ItemArgs{item})
 	}
+}
+
+func (mgr *Manager) GetInventory() []Item {
+	mgr.mtx.RLock()
+	defer mgr.mtx.RUnlock()
+	inventory := make([]Item, 0, len(mgr.items))
+	for _, item := range mgr.items {
+		inventory = append(inventory, item)
+	}
+	return inventory
 }

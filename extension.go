@@ -601,6 +601,12 @@ func (ext *Ext) handlePacketIntercept(p *Packet) (err error) {
 	var headerValue uint16
 	if ext.client.Type == Shockwave {
 		packetOffset = tabs[2] + 2
+		b1, b2 := p.Data[packetOffset], p.Data[packetOffset+1]
+		if !encoding.IsValidB64Byte(b1) || !encoding.IsValidB64Byte(b2) {
+			// TODO: Check what's up with these bytes. (happens on pickall)
+			dbgExt.Printf("Invalid B64 bytes: %x %x at offset %d", b1, b2, packetOffset)
+			return nil
+		}
 		headerValue = uint16(encoding.B64Decode(p.Data[packetOffset : packetOffset+2]))
 	} else {
 		headerValue = binary.BigEndian.Uint16(p.Data[packetOffset:])
