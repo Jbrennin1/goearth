@@ -43,20 +43,33 @@ func (obj Object) String() string {
 }
 
 func (obj *Object) Parse(p *g.Packet, pos *int) {
-	strId := p.ReadStringPtr(pos)
-	id, err := strconv.Atoi(strId)
-	if err != nil {
-		panic(fmt.Errorf("invalid object ID: %q", strId))
-	}
+    strId := p.ReadStringPtr(pos)
+    var id int
+    var err error
 
-	*obj = Object{Id: id}
-	p.ReadPtr(pos, &obj.Class,
-		&obj.X, &obj.Y, &obj.Width, &obj.Height,
-		&obj.Direction, &obj.Z,
-		&obj.Colors, &obj.RuntimeData,
-		&obj.Extra, &obj.StuffData)
+    // Handle hexadecimal format with "H" prefix (e.g., "H1492413")
+    if strings.HasPrefix(strId, "H") {
+        // Parse as hexadecimal, removing the "H" prefix
+        id64, hexErr := strconv.ParseInt(strId[1:], 16, 32)
+        if hexErr != nil {
+            panic(fmt.Errorf("invalid hexadecimal object ID: %q", strId))
+        }
+        id = int(id64)
+    } else {
+        // Parse as decimal (existing behavior)
+        id, err = strconv.Atoi(strId)
+        if err != nil {
+            panic(fmt.Errorf("invalid object ID: %q", strId))
+        }
+    }
+
+    *obj = Object{Id: id}
+    p.ReadPtr(pos, &obj.Class,
+        &obj.X, &obj.Y, &obj.Width, &obj.Height,
+        &obj.Direction, &obj.Z,
+        &obj.Colors, &obj.RuntimeData,
+        &obj.Extra, &obj.StuffData)
 }
-
 // Item represents a wall item in a room.
 type Item struct {
 	Id       int
