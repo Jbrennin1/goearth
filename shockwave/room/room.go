@@ -48,13 +48,20 @@ func (obj *Object) Parse(p *g.Packet, pos *int) {
     var err error
 
     // Handle hexadecimal format with "H" prefix (e.g., "H1492413")
-    if strings.HasPrefix(strId, "H") {
-        // Parse as hexadecimal, removing the "H" prefix
-        id64, hexErr := strconv.ParseInt(strId[1:], 16, 32)
-        if hexErr != nil {
-            panic(fmt.Errorf("invalid hexadecimal object ID: %q", strId))
-        }
-        id = int(id64)
+    if strings.HasPrefix(strId, "HM") {
+    // Parse as hexadecimal, removing the "HM" prefix
+    id64, hexErr := strconv.ParseInt(strId[2:], 16, 32)
+    if hexErr != nil {
+        panic(fmt.Errorf("invalid hexadecimal object ID: %q", strId))
+    }
+    id = int(id64)
+} else if strings.HasPrefix(strId, "H") {
+    // Parse as hexadecimal, removing the "H" prefix
+    id64, hexErr := strconv.ParseInt(strId[1:], 16, 32)
+    if hexErr != nil {
+        panic(fmt.Errorf("invalid hexadecimal object ID: %q", strId))
+    }
+    id = int(id64)
     } else {
         // Parse as decimal (existing behavior)
         id, err = strconv.Atoi(strId)
